@@ -5,6 +5,7 @@ void ofApp::setup(){
      ofBackground(80);
      ofSetFrameRate(120);
      ofSetVerticalSync(false);
+     ofSetWindowTitle("TETRIS");
      
      //初期化
      fieldSize.set(500, 1000);
