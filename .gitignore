@@ -14,7 +14,7 @@
 [Dd]ebug*/
 [Rr]elease*/
 *.mode*
-*.app/
+# *.app/
 *.pyc
 .svn/
 *.log
