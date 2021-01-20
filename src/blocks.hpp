@@ -45,6 +45,12 @@ public:
      ofVec2f nowPos;
      vector<int> line;
      
+     //サウンド
+     void setBlockSound(string file);
+     void setDeleteSound(string file);
+     ofSoundPlayer  s_block;
+     ofSoundPlayer  s_delete;
+     
      //各ブロックの格納行列
      vector<ofColor> colors = {
           {200, 200, 100},

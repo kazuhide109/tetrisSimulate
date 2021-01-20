@@ -25,9 +25,11 @@ void Blocks::update(){
           stackCnt = 0;
           saveArea();
           timeThred = settingThred;
+          if(s_block.isLoaded())s_block.play();
      }
      
      if(line.size()>0){
+          if(s_delete.isLoaded())s_delete.play();
           if(ofGetElapsedTimef() - saveTime > timeThred-0.5f){
                deleteLines(saveField_in);
           }
@@ -226,6 +228,20 @@ void Blocks::reset(){
      totalBlockNum = 0;
      keepBlock = -1;
      pKeepBlock = -1;
+}
+
+void Blocks::setBlockSound(string file){
+     s_block.load(file);
+     s_block.setVolume(0.75f);
+     s_block.setLoop(false);
+     s_block.setMultiPlay(true);
+}
+
+void Blocks::setDeleteSound(string file){
+     s_delete.load(file);
+     s_delete.setVolume(0.75f);
+     s_delete.setLoop(false);
+     s_delete.setMultiPlay(false);
 }
 
 vector<ofVec4f> Blocks::select(vector<ofVec4f> in, int num){

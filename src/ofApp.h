@@ -32,6 +32,8 @@ class ofApp : public ofBaseApp{
      bool isPause;
      bool isDebug;
      
+     int saveNum;
+     
      //ブロックの管理機能をまとめたクラス
      Blocks blocks;
      
@@ -40,5 +42,8 @@ class ofApp : public ofBaseApp{
      ofVec2f colrow = {8, 2};
      vector<string> uiStr = {"Q\nRotateL", "W\nRotateR", " ", " ", " ", " ", "UP", " ", "A\nKeep", " ", "SPACE\nPause", "ENTER\nReset", " ", "LEFT", "DOWN", "RIGHT"};
      vector<int> keyStatuses;
+     
+     //サウンド
+     ofSoundPlayer  beats;
      
 };

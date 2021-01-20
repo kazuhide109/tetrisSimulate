@@ -20,16 +20,30 @@ void ofApp::setup(){
      firstWindowSize.set(ofGetWidth(), ofGetHeight());
      uiFont.load("verdana.ttf", 8);
      keyStatuses.resize(colrow.x*colrow.y);
+     
+     //サウンド
+     beats.load("beat.wav");
+     beats.setVolume(0.75f);
+     beats.setLoop(true);
+     beats.setMultiPlay(false);
+     beats.play();
+     
+     blocks.setBlockSound("block.mp3");
+     blocks.setDeleteSound("attention.mp3");
+     
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
      //一時停止時
-     if(isPause)
+     if(isPause){
           blocks.saveTime = ofGetElapsedTimef();
+     }
+     beats.setPaused(isPause);
      
      //ゲーム進行の更新
      blocks.update();
+     
 }
 
 //--------------------------------------------------------------
