@@ -10,6 +10,7 @@ void ofApp::setup(){
      fieldSize.set(500, 1000);
      blockSize.set(fieldSize.x/fieldCol, fieldSize.y/fieldRow);
      isDebug = true;
+     isPause = true;
      
      //ゲーム内容の初期化
      blocks.setup();
@@ -95,13 +96,17 @@ void ofApp::draw(){
                      ofDrawRectangle(rect);
                }else{
                     if(blocks.selectBlock[i][j]){
-                         ofSetColor(blocks.colors[blocks.nowSelect], 255);
-                         ofDrawRectangle(rect);
+                         if(blocks.nowPos.y + j > 4){
+                              ofSetColor(blocks.colors[blocks.nowSelect], 255);
+                              ofDrawRectangle(rect);
+                         }
                     }
                }
-          
           }
      }
+     
+     //Guide
+     
      
      float fixY = resFieldSize.y + (resFieldSize.y/row)*mergeRow;
      //Grid //Static Block
@@ -112,10 +117,17 @@ void ofApp::draw(){
                     ofSetColor(blocks.colors[blocks.saveField[i][j]-1]);
                     ofDrawRectangle(i*resFieldSize.x/col, j*fixY/fieldRow, resFieldSize.x/col, fixY/fieldRow);
                }
+               ofNoFill();
                if(j >= mergeRow){
-                    ofNoFill();
                     ofSetColor(100);
                     ofDrawRectangle(i*resFieldSize.x/col, j*fixY/fieldRow, resFieldSize.x/col, fixY/fieldRow);
+               }
+               ofFill();
+               for(auto bl : blocks.line){
+                    if(bl == j){
+                         ofSetColor(180, 255, 255, 255);
+                         ofDrawRectangle(i*resFieldSize.x/col, j*fixY/fieldRow, resFieldSize.x/col, fixY/fieldRow);
+                    }
                }
           }
      }

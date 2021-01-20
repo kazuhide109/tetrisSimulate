@@ -24,8 +24,13 @@ void Blocks::update(){
      if(stackCnt > 1){
           stackCnt = 0;
           saveArea();
-          checkTetris(); //テトリス判定
           timeThred = settingThred;
+     }
+     
+     if(line.size()>0){
+          if(ofGetElapsedTimef() - saveTime > timeThred-0.5f){
+               deleteLines(saveField_in);
+          }
      }
 };
 
@@ -60,6 +65,7 @@ void Blocks::saveArea(){
                          saveField[int(nowPos.x)+i][int(nowPos.y)+j] += selectBlock[i][j]*(nowSelect+1);
                }
           }
+          checkTetris(); //テトリス判定
      }
      //keepを1回使っているかの判断
      if(pKeepBlock == keepBlock || pKeepBlock == -1){
@@ -153,11 +159,11 @@ bool Blocks::check(vector<ofVec4f> _in){
 
 void Blocks::checkTetris(){
      cout << "checkTetris" << endl;
-     vector<int> line;
-     int saveField_in[fieldCol][fieldRow];
+     line.resize(0);
      for(int j=0; j<fieldRow; j++){
           int count = 0;
           for(int i=0; i<fieldCol; i++){
+               saveField_in[i][j] = 0;
                if(saveField[i][j]!=0){
                     count++;
                     if(count == 10){
@@ -168,21 +174,26 @@ void Blocks::checkTetris(){
                saveField_in[i][j] = saveField[i][j];
           }
      }
+     
+}
+
+void Blocks::deleteLines(int _saveField_in[fieldCol][fieldRow]){
+     //列消し処理
      if(line.size()>0){
           for(int k=0; k<line.size(); k++){
                for(int i=0; i<fieldCol; i++){
-                    saveField[i][line[k]] = 0; //列消し
+                    saveField[i][line[k]] = 0;
                     for(int j=line[k]; j>=0; j--){
                          if(j==0) saveField[i][j] = 0;
                          else{
-                              saveField[i][j] = saveField_in[i][j-1];
-                              saveField_in[i][j] = saveField[i][j];
+                              saveField[i][j] = _saveField_in[i][j-1];
+                              _saveField_in[i][j] = saveField[i][j];
                          }
                     }
                }
           }
      }
-     
+     line.clear();
 }
 
 void Blocks::downShift(){

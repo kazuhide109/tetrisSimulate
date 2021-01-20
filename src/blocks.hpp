@@ -10,7 +10,7 @@
 #define fieldRow 25
 #define mergeRow 5
 
-class Blocks : public ofBaseApp {
+class Blocks{
      
 public:
      
@@ -22,6 +22,7 @@ public:
      void saveArea();
      bool check(vector<ofVec4f> in);
      void checkTetris();
+     void deleteLines(int saveField_in[fieldCol][fieldRow]);
      void downShift();
      void keep();
      void reset();
@@ -37,10 +38,12 @@ public:
      int totalBlockNum;
      int nowSelect;
      int saveField[fieldCol][fieldRow];
+     int saveField_in[fieldCol][fieldRow];
      int stackCnt;
      int keepBlock;
      int pKeepBlock;
      ofVec2f nowPos;
+     vector<int> line;
      
      //各ブロックの格納行列
      vector<ofColor> colors = {
