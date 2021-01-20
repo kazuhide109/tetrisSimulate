@@ -97,7 +97,7 @@ void Blocks::moveCheck(int direction){
      else if(direction == 2) nowPos.y++;
      
      
-     if(check(in)){
+     if(check(in, nowPos)){
           if(direction == 0) nowPos.x++;
           else if(direction == 1) nowPos.x--;
           else if(direction == 2){
@@ -126,28 +126,28 @@ void Blocks::rotateCheck(int direction){
                selectBlock[i][j] = in[p][q];
           }
      }
-     if(check(selectBlock))
+     if(check(selectBlock, nowPos))
           selectBlock = ins;
 }
 
-bool Blocks::check(vector<ofVec4f> _in){
+bool Blocks::check(vector<ofVec4f> _in, ofVec2f pos){
      bool reject = false;
           for(int i=0; i<4; i++){
                for(int j=0; j<4; j++){
                     if(_in[i][j] != 0){
-                         if(int(nowPos.x)+i < 0 || int(nowPos.x)+i >= fieldCol || int(nowPos.y)+j >= fieldRow){
+                         if(int(pos.x)+i < 0 || int(pos.x)+i >= fieldCol || int(pos.y)+j >= fieldRow){
                               reject = true;
-                              cout << "moveRejectA:" << endl;
+//                              cout << "moveRejectA:" << endl;
                               break;
                          }
                     }
-                    int px = int(nowPos.x) + i;
-                    int py = int(nowPos.y) + j;
+                    int px = int(pos.x) + i;
+                    int py = int(pos.y) + j;
                     if(px >= 0 && px < fieldCol && py >= 0 && py < fieldRow){
                          if(saveField[px][py] != 0){
-                              if(saveField[int(nowPos.x)+i][int(nowPos.y)+j]!=0 && selectBlock[i][j] != 0){
+                              if(saveField[int(pos.x)+i][int(pos.y)+j]!=0 && selectBlock[i][j] != 0){
                                    reject = true;
-                                   cout << "moveRejectB" << endl;
+//                                   cout << "moveRejectB" << endl;
                                    break;
                               }
                          }

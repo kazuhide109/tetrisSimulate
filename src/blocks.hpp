@@ -20,7 +20,7 @@ public:
      void moveCheck(int direction);
      void rotateCheck(int direction);
      void saveArea();
-     bool check(vector<ofVec4f> in);
+     bool check(vector<ofVec4f> in, ofVec2f pos);
      void checkTetris();
      void deleteLines(int saveField_in[fieldCol][fieldRow]);
      void downShift();

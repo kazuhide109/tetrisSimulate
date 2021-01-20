@@ -82,10 +82,36 @@ void ofApp::draw(){
           }
      }
      
-     //Select Block
      int col = fieldCol;
      int row = fieldRow -mergeRow;
      ofTranslate(0, -(resFieldSize.y/row)*mergeRow);
+     
+     //Guide
+     vector<ofVec4f> guideIn;
+     guideIn = blocks.selectBlock;
+     int i=0;
+     ofVec2f guidePos;
+     guidePos = blocks.nowPos;
+     while(i < 25) {
+          if(blocks.check(guideIn, guidePos)) break;
+          guidePos.y += 1;
+     }
+     guidePos.y -= 1;
+     for(int i=0; i<4; i++){
+          for(int j=0; j<4; j++){
+               ofRectangle rect;
+               rect.setSize(resFieldSize.x/col, resFieldSize.y/row);
+               rect.setPosition((i + guidePos.x)*rect.width, (j + guidePos.y)*rect.height);
+                    if(blocks.selectBlock[i][j]){
+                         if(guidePos.y + j > 4){
+                              ofSetColor(255, 120);
+                              ofDrawRectangle(rect);
+                         }
+                    }
+          }
+     }
+     
+     //Select Block
      for(int i=0; i<4; i++){
           for(int j=0; j<4; j++){
                ofRectangle rect;
@@ -104,9 +130,6 @@ void ofApp::draw(){
                }
           }
      }
-     
-     //Guide
-     
      
      float fixY = resFieldSize.y + (resFieldSize.y/row)*mergeRow;
      //Grid //Static Block
@@ -142,7 +165,7 @@ void ofApp::draw(){
      
      //UI Explanattion
      ofPushMatrix();
-     ofTranslate(ofGetWidth()*0.02, ofGetHeight()*0.7);
+     ofTranslate(ofGetWidth()*0.72, ofGetHeight()*0.85);
      ofRectangle areaRect;
      float areaSize = ofGetWidth()*0.25;
      areaRect.set(0, 0, (areaSize/firstWindowSize.x)*ofGetWidth(), (areaSize/4/firstWindowSize.y)*ofGetHeight());
@@ -150,13 +173,13 @@ void ofApp::draw(){
      ofDrawRectangle(areaRect);
      for(int j=0; j<colrow.y; j++){
           for(int i=0; i<colrow.x; i++){
-               ofSetColor(120, 255);
                ofVec2f xy = {areaRect.width/colrow.x, areaRect.height/colrow.y};
                xy = xy - xy*0.1;
                ofVec2f merge;
                merge.set((areaRect.width - (xy.x*colrow.x))/(colrow.x+1), (areaRect.height - (xy.y*colrow.y))/(colrow.y+1));
                ofRectangle box;
                box.set(i*(xy.x+merge.x)+merge.x, j*(xy.y+merge.y)+merge.y, xy.x, xy.y);
+               uiStr[i+(j*colrow.x)] == " " ? ofSetColor(120, 255) : ofSetColor(230, 255);
                ofDrawRectRounded(box, 10);
                ofSetColor(10, 255);
                uiFont.drawString(uiStr[i+(j*colrow.x)], box.x+5, box.y+15);
@@ -170,6 +193,7 @@ void ofApp::draw(){
           stringstream mes;
           mes << "FPS: " << ofToString(ofGetFrameRate());
           mes << "\n Pos: " << blocks.nowPos;
+          mes << "\n GuidePos: " << guidePos;
           mes << "\n MINO_ID: " << blocks.nowSelect;
           mes << "\n Pause: " << isPause;
           mes << "\n TotalBlocks: " << blocks.totalBlockNum;
